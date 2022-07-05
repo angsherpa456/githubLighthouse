@@ -1,10 +1,7 @@
 module.exports = {
   ci: {
     collect: {
-      numberOfRuns: 4,
-    },
-    assert: {
-      preset: 'lighthouse:recommended',
+      numberOfRuns: 3,
     },
     upload: {
       target: 'temporary-public-storage'
