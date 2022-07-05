@@ -1,7 +1,7 @@
 module.exports = {
   ci: {
     collect: {
-      numberOfRuns: 2,
+      numberOfRuns: 4,
     },
     assert: {
       preset: 'lighthouse:recommended',

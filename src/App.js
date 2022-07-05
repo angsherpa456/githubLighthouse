@@ -5,7 +5,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={logo} height={'357px'} width={'505px'} className="App-logo" alt="logo" />
         <p>
           This is a React based dummy app to test the Lighthouse in Github actions.
         </p>
