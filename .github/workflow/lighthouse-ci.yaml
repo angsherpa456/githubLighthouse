@@ -1,4 +1,4 @@
-name: Build project and run Lighthouse CI
+name: Build React project and run Lighthouse CI
 on: [push]
 jobs:
   lhci:
