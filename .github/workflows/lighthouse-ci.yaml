@@ -29,6 +29,7 @@ jobs:
           lhci autorun || echo "LHCI failed!"
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          LHCI_WIZARD_BUILD_TOKEN: ${{ secrets.LHCI_WIZARD_BUILD_TOKEN }}
 
       - name: Save the result
         uses: actions/upload-artifact@v1
