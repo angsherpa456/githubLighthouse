@@ -3,11 +3,11 @@
     "resourceSizes": [
       {
         "resourceType": "script",
-        "budget": 3
+        "budget": 300000
       },
       {
         "resourceType": "image",
-        "budget": 1
+        "budget": 100000
       }
     ],
     "resourceCounts": [
