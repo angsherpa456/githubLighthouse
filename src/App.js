@@ -7,7 +7,7 @@ function App() {
       <header className="App-header">
         <img src={logo} height={'357px'} width={'505px'} className="App-logo" alt="logo" />
         <p>
-          This is a React based dummy app to test the Lighthouse in Github actions while making the PR. this is the dummy test 2.
+          This is a React based dummy app to test the Lighthouse in Github actions while making the PR. this is the dummy test 2. added something more
         </p>
         <a
           className="App-link"
