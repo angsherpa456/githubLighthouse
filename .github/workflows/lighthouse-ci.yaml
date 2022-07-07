@@ -1,20 +1,38 @@
 name: Build React project and run Lighthouse CI
-on: [push]
+on:
+  pull_request:
+    branches:
+      - master
 jobs:
   lhci:
     name: Lighthouse CI
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js 12.x
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
         with:
-          node-version: 12.x
-      - name: npm install, build
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+          cache: 'yarn'
+
+      - name: build and start the project
         run: |
-          npm install
-          npm run build
+          yarn install --immutable
+          yarn run build
+
       - name: run Lighthouse CI
         run: |
-          npm install -g @lhci/cli@0.8.x
-          lhci autorun --upload.target=temporary-public-storage || echo "LHCI failed!"
+          yarn global add @lhci/cli@0.8.x
+          lhci autorun || echo "LHCI failed!"
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          LHCI_WIZARD_BUILD_TOKEN: ${{ secrets.LHCI_WIZARD_BUILD_TOKEN }}
+
+      - name: Save the result
+        uses: actions/upload-artifact@v1
+        with:
+          name: lighthouse-result
+          path: '.lighthouseci'
