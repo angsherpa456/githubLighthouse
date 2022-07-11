@@ -1,8 +1,8 @@
 module.exports = {
   ci: {
     collect: {
-      url: ['https://www.flaconi.de/'],
-      numberOfRuns: 3,
+      url: ['https://www.flaconi.de/', 'https://www.flaconi.de/parfum/', 'https://www.flaconi.de/parfum/chanel/bleu-de-chanel/chanel-bleu-de-chanel-eau-de-parfum.html#sku=80004552-50'],
+      numberOfRuns: 2,
     },
     assert: {
       budgetsFile: "./budget.json"
