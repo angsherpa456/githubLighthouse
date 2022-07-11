@@ -1,7 +1,7 @@
 module.exports = {
   ci: {
     collect: {
-      staticDistDir: './build',
+      url: ['https://www.flaconi.de/'],
       numberOfRuns: 3,
     },
     assert: {
