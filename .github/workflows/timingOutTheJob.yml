@@ -34,4 +34,5 @@ jobs:
         run: |
           out=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version")
           echo test, and deploy your project.
-          echo $out | jq .version
+          deployedVersion=$out | jq .version
+          echo deployed is $deployedVersion
