@@ -33,4 +33,4 @@ jobs:
       - name: Run a multi-line script
         run: |
           out=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version")
-          echo test, and deploy your project $out.
+          echo test, and deploy your project $out.version.
