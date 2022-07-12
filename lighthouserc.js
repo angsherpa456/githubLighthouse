@@ -22,6 +22,6 @@ module.exports = {
       // target: 'lhci',
       // serverBaseUrl: 'https://lighthousearchive.herokuapp.com/',
       // token: process.env.LHCI_WIZARD_BUILD_TOKEN
-    }
+    },
   },
 };
