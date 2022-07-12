@@ -12,16 +12,14 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      # - name: Use Node.js 14.x
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 14.x
-      #     cache: 'yarn'
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+          cache: 'yarn'
 
-      # - name: build and start the project
-      #   run: |
-      #     yarn install --immutable
-      #     yarn run build
+      - name: install puppeteer
+        run: yarn add puppeteer --dev --immutable
 
       - name: run Lighthouse CI
         run: |
