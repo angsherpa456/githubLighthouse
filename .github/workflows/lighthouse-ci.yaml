@@ -18,8 +18,8 @@ jobs:
           node-version: 14.x
           cache: 'yarn'
 
-      - name: install puppeteer
-        run: yarn add puppeteer --dev --immutable
+      # - name: install puppeteer
+      #   run: yarn add puppeteer --dev --immutable
 
       - name: run Lighthouse CI
         run: |

@@ -4,8 +4,9 @@ module.exports = {
   ci: {
     collect: {
       // url: ['https://www.flaconi.de/', 'https://www.flaconi.de/parfum/', 'https://www.flaconi.de/parfum/chanel/bleu-de-chanel/chanel-bleu-de-chanel-eau-de-parfum.html#sku=80004552-50'],
-      url: ['https://lite-stage-de.flaconi.de/', 'https://lite-stage-de.flaconi.de/pflege/', 'https://lite-stage-de.flaconi.de/pflege/m2-beaute/eyelash/m2-beaute-eyelash-activating-serum-wimpernserum.html#sku=80045755-5'],
-      numberOfRuns: 2,
+      // url: ['https://lite-stage-de.flaconi.de/', 'https://lite-stage-de.flaconi.de/pflege/', 'https://lite-stage-de.flaconi.de/pflege/m2-beaute/eyelash/m2-beaute-eyelash-activating-serum-wimpernserum.html#sku=80045755-5'],
+      url: ['https://lite-stage-de.flaconi.de/'],
+      numberOfRuns: 1,
       puppeteerScript: 'login-puppeteer-script.js',
       chromePath: puppeteer.executablePath(),
       headful: false,
