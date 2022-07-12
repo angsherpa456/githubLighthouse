@@ -33,6 +33,10 @@ jobs:
       - name: Run a multi-line script
         run: |
           out=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
-          echo test, and deploy your project.
           deployedVersion="$out"
           echo deployed is $deployedVersion
+          if ($deployedVersion == "2022.07.12.12.17"); then
+            echo isSame
+          else
+            echo notSame
+          fi
