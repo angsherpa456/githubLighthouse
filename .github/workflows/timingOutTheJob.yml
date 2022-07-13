@@ -23,7 +23,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
+#       - uses: actions/checkout@v3
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
@@ -35,10 +35,8 @@ jobs:
           out=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
           deployedVersion="$out"
           echo deployed is $deployedVersion
+          
       - name: Is deployed version different
-        run: |
-          if ${deployedVersion} == '2022.07.12.17.04'; then
-            echo true $deployedVersion
-          else
-            echo false $deployedVersion
-          fi
+        if: $deployedVersion == '2022.07.12.17.04'
+        run: echo true $deployedVersion
+
