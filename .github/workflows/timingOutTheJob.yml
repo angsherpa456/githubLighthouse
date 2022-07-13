@@ -46,5 +46,14 @@ jobs:
         run: |
           echo "this is testing $GITHUB_ENV"
           echo "this is testing second '${{ env.deployedVersion }}'"
+---
+name: Second Workflow
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: test
+      run: echo "Hello, again."
         
 
