@@ -1,7 +1,7 @@
-name: "example-cron-action"  
+name: "Scheduled workflow"  
 on:  
   schedule:  
-    - cron:  '*/5 * * * *'    # At every 5 minute
+    - cron:  '*/3 * * * *'    # At every 5 minute
 jobs:  
   singleJobName:  
     runs-on: ubuntu-latest    
@@ -21,13 +21,13 @@ jobs:
         run: 'exit 1'
         
       - name: Just testing step
-        run: echo This is from delayed file after 3 minutes
+        run: echo This is from delayed file after 3 minutes and the variable is ${{ env.DELAYED_JOB_PAYLOAD }}
 
       ## Remove the workflow file from `.github/workflows` 
       ## if work step has succeeded or attempts number 
       ## has reached the limit equal to 10
       - name: Remove scheduled job
-        if: github.run_number > 2
+        if: github.run_number > 200
         uses: cardinalby/unschedule-job-action@v1  
         with:  
           ghToken: ${{ secrets.PERSONAL_TOKEN }}
