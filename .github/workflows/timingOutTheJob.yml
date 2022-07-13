@@ -42,7 +42,7 @@ jobs:
         
       - name: testing step
         run: |
-          echo "this is testing $deployedVersion"
+          echo "this is testing $GITHUB_ENV"
           echo "this is testing second '${{ env.deployedVersion }}'"
         
 
