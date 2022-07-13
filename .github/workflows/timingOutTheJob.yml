@@ -37,8 +37,10 @@ jobs:
           echo deployed is $deployedVersion
           
       - name: Is deployed version different
-        if: ${{ env.deployedVersion == '2022.07.12.17.04' }}
-        run: echo "ho ta $deployedVersion"
+        if: ${{ env.deployedVersion != '2022.07.12.17.04' }}
+        run: |
+          echo "ho ta $deployedVersion"
+          echo "ho ni ${{ env.deployedVersion }}"
         
       - name: testing step
         run: |
