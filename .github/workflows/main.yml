@@ -34,7 +34,7 @@ jobs:
           echo "initialStagingVersion is $initialStagingVersion"
           
       - name: test if version is same
-        if: ${{ env.initialStagingVersion == '2022.07.13.07.14' }}
+        if: ${{ env.initialStagingVersion == '2022.07.13.07.140' }}
         run: echo "stagingVersion is same $initialStagingVersion"
         
       - name: test if version is not same
