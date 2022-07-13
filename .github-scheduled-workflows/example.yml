@@ -1,7 +1,7 @@
-name: "Scheduled workflow"  
+name: Scheduled workflow for lighthouse CI
 on:  
   schedule:  
-    - cron:  '*/3 * * * *'    # At every 5 minute
+    - cron:  '*/3 * * * *'    # At every 3 minute
 jobs:  
   singleJobName:  
     runs-on: ubuntu-latest    
@@ -12,10 +12,16 @@ jobs:
           ## but the exact commit where the scheduling happened. 
           ## This env variable contains SHA (or tag name) of the 
           ## commit which triggered our main workflow.
-          ref: ${{ env.DELAYED_JOB_CHECKOUT_REF }}  
+          ref: ${{ env.DELAYED_JOB_CHECKOUT_REF }}
+        
+      - name: Check the staging version in every 20 minutes
+        run: |
+          response=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
+          echo stagingVersion="$response"
+          echo stagingVersion is $stagingVersion
 
-      ## Do your job here
-      - name: Fake work
+      ## When staging deployment is completed then run lighthouse CI
+      - name: lighthouse CI
         id: actualWorkStep
         continue-on-error: true
         run: 'exit 1'
@@ -25,9 +31,9 @@ jobs:
 
       ## Remove the workflow file from `.github/workflows` 
       ## if work step has succeeded or attempts number 
-      ## has reached the limit equal to 10
+      ## has reached the limit equal to 3
       - name: Remove scheduled job
-        if: github.run_number > 200
+        if: github.run_number > 3
         uses: cardinalby/unschedule-job-action@v1  
         with:  
           ghToken: ${{ secrets.PERSONAL_TOKEN }}
