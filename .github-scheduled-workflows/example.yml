@@ -18,9 +18,10 @@ jobs:
       - name: Fake work
         id: actualWorkStep
         continue-on-error: true
-        run: |
-        echo This is from delayed file after 3 minutes
-        'exit 1'
+        run: 'exit 1'
+        
+      -name: Just testing step
+       run: echo This is from delayed file after 3 minutes
 
       ## Remove the workflow file from `.github/workflows` 
       ## if work step has succeeded or attempts number 
