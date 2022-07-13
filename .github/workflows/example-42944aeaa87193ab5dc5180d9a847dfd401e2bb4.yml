@@ -1,0 +1,28 @@
+name: example-cron-action
+'on':
+  schedule:
+    - cron: '*/5 * * * *'
+jobs:
+  singleJobName:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: '${{ env.DELAYED_JOB_CHECKOUT_REF }}'
+      - name: Fake work
+        id: actualWorkStep
+        continue-on-error: true
+        run: exit 1
+      - name: Just testing step
+        run: echo This is from delayed file after 3 minutes
+      - name: Remove scheduled job
+        if: github.run_number > 2
+        uses: cardinalby/unschedule-job-action@v1
+        with:
+          ghToken: '${{ secrets.PERSONAL_TOKEN }}'
+    env:
+      DELAYED_JOB_CHECKOUT_REF: 42944aeaa87193ab5dc5180d9a847dfd401e2bb4
+      DELAYED_JOB_CHECKOUT_REF_IS_TAG: 'false'
+      DELAYED_JOB_WORKFLOW_FILE_PATH: .github/workflows/example-42944aeaa87193ab5dc5180d9a847dfd401e2bb4.yml
+      DELAYED_JOB_WORKFLOW_UNSCHEDULE_TARGET_BRANCH: master
+      DELAYED_JOB_PAYLOAD: testingPayload
