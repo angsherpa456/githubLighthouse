@@ -37,7 +37,7 @@ jobs:
           echo deployed is $deployedVersion
           
       - name: Is deployed version different
-        if: ${{ deployedVersion }} == '2022.07.12.17.04'
+        if: ${{ $deployedVersion }} == '2022.07.12.17.04'
         run: echo true $deployedVersion
         
 
