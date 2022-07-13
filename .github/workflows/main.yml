@@ -37,7 +37,7 @@ jobs:
       
       # Schedule the workflow to initiate lighthouse ci once the staging deployment gets completed
       - name: schedule-job-action
-      - uses: cardinalby/schedule-job-action@1.0.1  
+        uses: cardinalby/schedule-job-action@1.0.1  
         with:  
           ghToken: ${{ secrets.PERSONAL_TOKEN }}  
           templateYmlFile: '.github-scheduled-workflows/example.yml'
