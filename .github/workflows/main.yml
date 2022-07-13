@@ -34,3 +34,4 @@ jobs:
         with:  
           ghToken: ${{ secrets.PERSONAL_TOKEN }}  
           templateYmlFile: '.github-scheduled-workflows/example.yml'
+          jobPayload: 'testingPayload'
