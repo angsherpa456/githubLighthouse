@@ -24,7 +24,7 @@ jobs:
     steps:
       # Test if expression
       - name: test-if-expression
-        if: ${{ 'yes' == 'yes' }}
+        if: ${{ 'yes' == 'no' }}
         run: echo This expression is true
 
       # Runs a single command using the runners shell
