@@ -40,4 +40,9 @@ jobs:
         if: ${{ env.deployedVersion == '2022.07.12.17.04' }}
         run: echo "ho ta $deployedVersion"
         
+      - name: testing step
+        run: |
+          echo "this is testing $deployedVersion"
+          echo "this is testing second '${{ env.deployedVersion }}'"
+        
 
