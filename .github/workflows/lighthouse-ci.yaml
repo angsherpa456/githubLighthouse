@@ -1,8 +1,7 @@
 name: Build React project and run Lighthouse CI
 on:
   pull_request:
-    branches:
-      - master
+    types: [ closed ]
 jobs:
   lhci:
     name: Lighthouse CI
