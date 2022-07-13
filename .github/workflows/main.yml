@@ -28,10 +28,19 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world from main scheduler file!
+        
+      - name: Get the staging version when the new deployment got started
+        run: |
+          out=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
+          echo deployedVersion="$out" >> $GITHUB_ENV
+          echo deployed is $deployedVersion
       
-      # Get the scheduled file from template
-      - uses: cardinalby/schedule-job-action@v1  
+      # Schedule the workflow to initiate lighthouse ci once the staging deployment gets completed
+      - name: schedule-job-action
+      - uses: cardinalby/schedule-job-action@1.0.1  
         with:  
           ghToken: ${{ secrets.PERSONAL_TOKEN }}  
           templateYmlFile: '.github-scheduled-workflows/example.yml'
-          jobPayload: 'testingPayload'
+          jobPayload: env.deployedVersion
+          
+
