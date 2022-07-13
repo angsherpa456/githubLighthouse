@@ -54,8 +54,8 @@ jobs:
   conditionalJob:
     runs-on: ubuntu-latest
     needs: build
+    if: ${{ needs.build.outputs.output1 == 'hello' }}
     steps:
       - name: get the result from previous job
-        if: ${{ needs.build.outputs.output1 == 'hellod' }}
         run: echo ${{needs.build.outputs.output1}}
   
