@@ -33,11 +33,11 @@ jobs:
       - name: Run a multi-line script
         run: |
           out=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
-          deployedVersion="$out"
+          deployedVersion="$out" >> $GITHUB_ENV
           echo deployed is $deployedVersion
           
       - name: Is deployed version different
-        if: ${{ $deployedVersion }} == '2022.07.12.17.04'
-        run: echo true $deployedVersion
+        if: ${{ env.deployedVersion == '2022.07.12.17.04' }}
+        run: echo "ho ta $deployedVersion"
         
 
