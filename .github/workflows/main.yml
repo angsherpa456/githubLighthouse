@@ -24,15 +24,24 @@ jobs:
     steps:
       # Test if expression
       - name: test-if-expression
-        if: ${{ 'yes' == 'no' }}
+        if: ${{ 'yes' == 'yes' }}
         run: echo This expression is true
+        
+      - name: get the staging version
+        run: |
+          response=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
+          echo initialStagingVersion="$response" >> $GITHUB_ENV
+          echo "initialStagingVersion is $initialStagingVersion"
+          
+      - name: test if version is same
+        if: ${{ env.initialStagingVersion == '2022.07.13.07.14' }}
+        run: echo "stagingVersion is same $initialStagingVersion"
+        
+      - name: test if version is not same
+        if: ${{ env.initialStagingVersion != '2022.07.13.07.14' }}
+        run: echo "stagingVersion is not same $initialStagingVersion"
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
