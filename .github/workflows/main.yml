@@ -1,5 +1,5 @@
 # This workflow schedule another workflow to check recursively if the staging deployment has been completed or not
-# Upon completing the deployment, lighthouse CI will be initiated against the newly deployed staging environment
+# Upon completing the deployment, lighthouse CI will be initiated against the newly deployed staging environment.
 
 name: Job schudler
 
