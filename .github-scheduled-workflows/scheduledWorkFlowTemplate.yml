@@ -23,13 +23,13 @@ jobs:
       ## When staging deployment is completed then run lighthouse CI
       - name: lighthouse CI
         id: lighthouseCI
-        if: ${{ env.DELAYED_JOB_CHECKOUT_REF == env.stagingVersion }}
+        if: ${{ env.DELAYED_JOB_PAYLOAD == env.stagingVersion }}
       ## continue-on-error: true
         run: echo "The version is same $stagingVersion"
         
         ## This means the if expression did not match
       - name: lighthouse CI if expression testing
-        if: ${{ env.DELAYED_JOB_CHECKOUT_REF != env.stagingVersion }}
+        if: ${{ env.DELAYED_JOB_PAYLOAD != env.stagingVersion }}
       ## continue-on-error: true
         run: echo "The version is not same $stagingVersion"
         
