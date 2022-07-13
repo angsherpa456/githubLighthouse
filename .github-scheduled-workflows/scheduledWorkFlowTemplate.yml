@@ -25,7 +25,9 @@ jobs:
         id: lighthouseCI
         if: ${{ env.DELAYED_JOB_PAYLOAD == env.stagingVersion }}
       ## continue-on-error: true
-        run: echo "The version is same $stagingVersion"
+        run: |
+          echo "The version is same $stagingVersion"
+          echo "::set-output name=test::hello"
         
         ## This means the if expression did not match
       - name: lighthouse CI if expression testing
@@ -35,7 +37,8 @@ jobs:
         
       - name: Just testing step
         run: echo This is from delayed file after 3 minutes and the variable is ${{ env.DELAYED_JOB_PAYLOAD }}
-
+      
+      ## CHECK IF THIS CAN BE MOVED IN THE DEPENDED JOB BELOW
       ## Remove the workflow file from `.github/workflows` 
       ## if work step has succeeded or attempts number 
       ## has reached the limit equal to 3
@@ -46,3 +49,43 @@ jobs:
         uses: cardinalby/unschedule-job-action@v1  
         with:  
           ghToken: ${{ secrets.PERSONAL_TOKEN }}
+     
+    outputs:
+      output1: ${{ steps.lighthouseCI.outputs.test }}
+        
+  conditionalJob:
+    runs-on: ubuntu-latest
+    needs: scheduledJobForLightHouseCI
+    if: ${{ needs.scheduledJobForLightHouseCI.outputs.output1 == 'hello' }}
+    steps:
+      - name: get the result from previous job
+        run: echo ${{needs.scheduledJobForLightHouseCI.outputs.output1}}
+        
+      - uses: actions/checkout@v3
+        with:
+#           ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ env.DELAYED_JOB_CHECKOUT_REF }}
+
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+          cache: 'yarn'
+
+      - name: build and start the project
+        run: |
+          yarn install --immutable
+          yarn run build
+      - name: run Lighthouse CI
+        run: |
+          yarn global add @lhci/cli@0.8.x
+          lhci autorun || echo "LHCI failed!"
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          LHCI_WIZARD_BUILD_TOKEN: ${{ secrets.LHCI_WIZARD_BUILD_TOKEN }}
+
+      - name: Save the result
+        uses: actions/upload-artifact@v1
+        with:
+          name: lighthouse-result
+          path: '.lighthouseci'
