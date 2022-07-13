@@ -41,6 +41,6 @@ jobs:
         with:  
           ghToken: ${{ secrets.PERSONAL_TOKEN }}  
           templateYmlFile: '.github-scheduled-workflows/example.yml'
-          jobPayload: env.deployedVersion
+          jobPayload: $deployedVersion
           
 
