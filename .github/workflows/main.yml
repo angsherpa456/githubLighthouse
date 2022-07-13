@@ -56,5 +56,6 @@ jobs:
     needs: build
     steps:
       - name: get the result from previous job
+        if: ${{ needs.build.outputs.output1 == 'hello' }}
         run: echo ${{needs.build.outputs.output1}}
   
