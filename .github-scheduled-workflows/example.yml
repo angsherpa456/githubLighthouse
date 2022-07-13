@@ -1,7 +1,7 @@
 name: "example-cron-action"  
 on:  
   schedule:  
-    - cron:  '*/5 * * * *'    # At every 15th minute
+    - cron:  '*/3 * * * *'    # At every 15th minute
 jobs:  
   singleJobName:  
     runs-on: ubuntu-latest    
@@ -18,7 +18,9 @@ jobs:
       - name: Fake work
         id: actualWorkStep
         continue-on-error: true
-        run: 'exit 1'
+        run: |
+        echo This is from delayed file after 3 minutes
+        'exit 1'
 
       ## Remove the workflow file from `.github/workflows` 
       ## if work step has succeeded or attempts number 
