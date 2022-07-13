@@ -34,8 +34,11 @@ jobs:
           echo "initialStagingVersion is $initialStagingVersion"
           
       - name: test if version is same
+        id: compareVersion
         if: ${{ env.initialStagingVersion == '2022.07.13.07.14' }}
-        run: echo "stagingVersion is same $initialStagingVersion"
+        run: |
+          echo "stagingVersion is same $initialStagingVersion"
+          echo "::set-output name=test::hello"
         
       - name: test if version is not same
         if: ${{ env.initialStagingVersion != '2022.07.13.07.14' }}
@@ -44,4 +47,13 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a one-line script
         run: echo Hello, world!
-
+    # Outputs
+    outputs:
+      output1: ${{ steps.compareVersion.outputs.test }}
+  
+  conditionalJob:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - run: echo ${{needs.build.outputs.output1}}
+  
