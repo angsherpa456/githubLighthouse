@@ -32,8 +32,8 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          echo out=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
-          deployedVersion="$out" >> $GITHUB_ENV
+          out=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
+          echo deployedVersion="$out" >> $GITHUB_ENV
           echo deployed is $deployedVersion
           
       - name: Is deployed version different
