@@ -35,5 +35,10 @@ jobs:
           out=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
           deployedVersion="$out"
           echo deployed is $deployedVersion
-          if: [[ $deployedVersion == "2022.07.12.17.04" ]]
-          echo isSame
+      - name: Is deployed version different
+        run: |
+          if ${deployedVersion} == '2022.07.12.17.04'; then
+            echo true $deployedVersion
+          else
+            echo false $deployedVersion
+          fi
