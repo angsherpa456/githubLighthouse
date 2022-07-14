@@ -15,7 +15,10 @@ module.exports = {
       }
     },
     assert: {
-      budgetsFile: "./budget.json"
+      assertions: {
+        "categories:performance": ["warn", {"minScore": 0.9}],
+        "categories:accessibility": ["warn", {"minScore": 1}]
+      }
     },
     upload: {
       target: 'temporary-public-storage'
