@@ -1,0 +1,58 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:  
+  LightHouseCItest:  
+    runs-on: ubuntu-latest    
+    steps:       
+      - uses: actions/checkout@v3  
+        with:  
+          ## We checkout not the head of the `master` branch 
+          ## but the exact commit where the scheduling happened. 
+          ## This env variable contains SHA (or tag name) of the 
+          ## commit which triggered our main workflow.
+          ref: ${{ github.event.pull_request.head.sha }}
+        
+      - name: Check the staging version in every 20 minutes
+        run: |
+          response=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
+          echo stagingVersion="$response" >> $GITHUB_ENV
+          echo "stagingVersion is $stagingVersion"
+      ## When staging version is different then mark it as deployment completed
+      - name: lighthouse CI
+        id: stagingDeploymentStatus
+        if: ${{ env.stagingVersion == '2022.07.13.07.14' }}
+        run: echo "deploymentCompleted=true" >> $GITHUB_ENV
+        
+      - name: Use Node.js 14.x
+        if: ${{ env.deploymentCompleted == 'true' }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+          cache: 'yarn'
+
+      - name: install puppeteer
+        if: ${{ env.deploymentCompleted == 'true' }}
+        run: yarn add puppeteer --dev --immutable
+      
+      - name: run Lighthouse CI
+        if: ${{ env.deploymentCompleted == 'true' }}
+        run: |
+          yarn global add @lhci/cli@0.8.x
+          lhci autorun || echo "LHCI failed!"
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          LHCI_WIZARD_BUILD_TOKEN: ${{ secrets.LHCI_WIZARD_BUILD_TOKEN }}
+      
