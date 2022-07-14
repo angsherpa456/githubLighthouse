@@ -1,13 +1,10 @@
 # This workflow schedule another workflow to check recursively if the staging deployment has been completed or not
+# particularly by checking the deployed version of the staging environment. (https://lite-stage-de.flaconi.de/api/version)
 # Upon completing the deployment, lighthouse CI will be initiated against the newly deployed staging environment.
 
-name: Job schudler
+name: Workflow scheduler for Lighthouse CI
 
 on:
-#   push:
-#     branches: [ "master" ]
-#   pull_request:
-#     branches: [ "master" ]
   pull_request:
     types: [ closed ]
 
@@ -18,21 +15,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Run a one-line script
-        run: echo Hello, world from main scheduler file!
-        
       - name: Get the staging version of the time when the new deployment process got initiated
         run: |
           response=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
           echo initialStagingVersion="$response" >> $GITHUB_ENV
-          echo initialStagingVersion is $initialStagingVersion
-      
+
       # Schedule the workflow to initiate lighthouse ci once the staging deployment gets completed
       - name: schedule-job-action
-        uses: cardinalby/schedule-job-action@1.0.1  
-        with:  
-          ghToken: ${{ secrets.PERSONAL_TOKEN }}  
-          templateYmlFile: '.github-scheduled-workflows/scheduledWorkFlowTemplate.yml'
+        uses: cardinalby/schedule-job-action@1.0.1
+        with:
+          ghToken: ${{ secrets.PERSONAL_TOKEN }}
+          templateYmlFile: '.github-scheduled-workflows/scheduledWorkFlowTemplateForLighthouse.yml'
           jobPayload: ${{ env.initialStagingVersion }}
           
 
