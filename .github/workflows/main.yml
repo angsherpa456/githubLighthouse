@@ -39,10 +39,19 @@ jobs:
         run: |
           echo "stagingVersion is same $initialStagingVersion"
           echo "::set-output name=test::hello"
+          echo "deploymentCompleted=true" >> $GITHUB_ENV
         
       - name: test if version is not same
         if: ${{ env.initialStagingVersion != '2022.07.13.07.14' }}
         run: echo "stagingVersion is not same $initialStagingVersion"
+        
+      - name: deployment completed
+        if: ${{ env.deploymentCompleted == 'true' }}
+        run: echo "deploymentCompleted $deploymentCompleted"
+        
+      - name: deployment not completed
+        if: ${{ env.deploymentCompleted != 'true' }}
+        run: echo "not deploymentCompleted $deploymentCompleted"
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
