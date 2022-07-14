@@ -19,6 +19,7 @@ jobs:
         run: |
           response=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
           echo initialStagingVersion="$response" >> $GITHUB_ENV
+          echo initialStagingVersion is $response
 
       # Schedule the workflow to initiate lighthouse ci once the staging deployment gets completed
       - name: schedule-job-action
