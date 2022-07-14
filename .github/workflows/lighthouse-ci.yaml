@@ -18,10 +18,8 @@ jobs:
           node-version: 14.x
           cache: 'yarn'
 
-      - name: build and start the project
-        run: |
-          yarn install --immutable
-          yarn run build
+      - name: install puppeteer
+        run: yarn add puppeteer --dev --immutable
 
       - name: run Lighthouse CI
         run: |
@@ -30,6 +28,8 @@ jobs:
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
           LHCI_WIZARD_BUILD_TOKEN: ${{ secrets.LHCI_WIZARD_BUILD_TOKEN }}
+          LHCI_STAGING_ENVIRONMENT_USERNAME: ${{ secrets.LHCI_STAGING_ENVIRONMENT_USERNAME }}
+          LHCI_STAGING_ENVIRONMENT_PASSWORD: ${{ secrets.LHCI_STAGING_ENVIRONMENT_PASSWORD }}
 
       - name: Save the result
         uses: actions/upload-artifact@v1
