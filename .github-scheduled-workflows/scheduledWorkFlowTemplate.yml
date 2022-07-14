@@ -24,19 +24,7 @@ jobs:
       - name: lighthouse CI
         id: stagingDeploymentStatus
         if: ${{ env.DELAYED_JOB_PAYLOAD == env.stagingVersion }}
-      ## continue-on-error: true
-        run: |
-          echo "The version is same $stagingVersion"
-          echo "deploymentCompleted=true" >> $GITHUB_ENV
-        
-        ## This means the if expression did not match
-      - name: lighthouse CI if expression testing
-        if: ${{ env.DELAYED_JOB_PAYLOAD != env.stagingVersion }}
-      ## continue-on-error: true
-        run: echo "The version is not same $stagingVersion"
-        
-      - name: Just testing step
-        run: echo This is from delayed file after 3 minutes and the variable is ${{ env.DELAYED_JOB_PAYLOAD }}
+        run: echo "deploymentCompleted=true" >> $GITHUB_ENV
         
       - name: Use Node.js 14.x
         if: ${{ env.deploymentCompleted == 'true' }}
@@ -45,11 +33,9 @@ jobs:
           node-version: 14.x
           cache: 'yarn'
 
-      - name: build and start the project
+      - name: install puppeteer
         if: ${{ env.deploymentCompleted == 'true' }}
-        run: |
-          yarn install --immutable
-          yarn run build
+        run: yarn add puppeteer --dev --immutable
       
       - name: run Lighthouse CI
         if: ${{ env.deploymentCompleted == 'true' }}
