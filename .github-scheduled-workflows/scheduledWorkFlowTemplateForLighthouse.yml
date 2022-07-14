@@ -21,7 +21,7 @@ jobs:
       ## When staging version is different then mark it as deployment completed
       - name: lighthouse CI
         id: stagingDeploymentStatus
-        if: ${{ env.DELAYED_JOB_PAYLOAD == env.stagingVersion }}
+        if: ${{ env.DELAYED_JOB_PAYLOAD != env.stagingVersion }}
         run: echo "deploymentCompleted=true" >> $GITHUB_ENV
         
       - name: Use Node.js 14.x
