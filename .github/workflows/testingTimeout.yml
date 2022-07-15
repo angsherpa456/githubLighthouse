@@ -42,11 +42,10 @@ jobs:
           max_attempts: 3
           retry_on: error
           continue_on_error: true
+          shell: bash
           command: |
-            if ('yes' == 'yesd')
-                  then
-              echo Yes
-            else
-              node -e 'process.exit(99);'
+            if [[ "yes" != "yes" ]]; then
+              echo This is it
             fi
+            exit 0
             
