@@ -45,7 +45,7 @@ jobs:
           
           command: |
             if [[ "yes" == "yes" ]]; then
-              $(node -e 'process.exit(99);')
+              echo 'exit 1'
             fi
           
             response=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
