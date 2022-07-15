@@ -44,7 +44,7 @@ jobs:
           continue_on_error: true
           shell: bash
           command: |
-            if [[ "yes" != "yes" ]]; then
+            if [[ "yes" == "yes" ]]; then
               echo This is it
             fi
             exit 0
