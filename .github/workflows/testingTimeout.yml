@@ -42,5 +42,11 @@ jobs:
           max_attempts: 3
           retry_on: error
           continue_on_error: true
-          command: node -e 'process.exit(99);'
+          command: |
+            if ('yes' == 'yesd')
+                  then
+              echo Yes
+            else
+              node -e 'process.exit(99);'
+            fi
             
