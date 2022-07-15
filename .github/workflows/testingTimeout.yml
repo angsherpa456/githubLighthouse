@@ -63,7 +63,7 @@ jobs:
         run: echo "deploymentCompleted is $deploymentCompleted"
         
       - name: install puppeteer
-        if: ${{ env.deploymentCompleted == 'true' }}
+        if: ${{ env.deploymentCompleted != 'true' }}
         run: yarn add puppeteer --dev --immutable
           
             
