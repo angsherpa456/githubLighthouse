@@ -45,7 +45,7 @@ jobs:
           shell: bash
           command: |
             if [[ "yes" == "yes" ]]; then
-              node -e 'process.exit(99);'
+              echo node -e 'process.exit(99);'
             fi
             exit 0
             
