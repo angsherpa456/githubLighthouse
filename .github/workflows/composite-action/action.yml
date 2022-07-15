@@ -1,0 +1,10 @@
+name: "My composite action"
+description: "Checks out the repository and does something"
+runs:
+  using: "composite"
+  steps:
+  - uses: actions/checkout@v2
+ 
+  - name: Testing composite action
+    run: echo "Executing action"
+    shell: bash
