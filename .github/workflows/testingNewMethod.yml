@@ -40,9 +40,6 @@ jobs:
         if: ${{ github.event_name == 'schedule' }}
         run: echo Hello from schedule!
 
-      # Runs a set of commands using the runners shell
-      - name: get branch name
-      - id: branch-name
       
       - name: get output
         run: echo ${{ steps.branch-name.outputs }}
