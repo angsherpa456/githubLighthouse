@@ -47,7 +47,7 @@ jobs:
             if [[ "yes" == "yes" ]]; then
               echo node -e 'process.exit(99);'
             fi
-            exit 0
+          
             response=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
             echo stagingVersion="$response"
             echo "stagingVersion is $stagingVersion"
