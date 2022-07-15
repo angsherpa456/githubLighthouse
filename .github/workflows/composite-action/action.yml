@@ -7,3 +7,4 @@ runs:
  
   - name: Testing composite action
     run: echo "Executing action"
+    shell: bash
