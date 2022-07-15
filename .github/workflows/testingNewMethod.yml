@@ -41,11 +41,9 @@ jobs:
         run: echo Hello from schedule!
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo github.ref
-          echo github.head_ref
-          echo github.base_ref
+      - uses: nelonoel/branch-name@v1
+        # Use branch name for whatever purpose
+      - run: echo ${BRANCH_NAME}
           
 
 
