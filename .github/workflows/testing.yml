@@ -1,0 +1,21 @@
+name: testing workflow addition
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: "*/10 * * * *"
+
+jobs:
+
+  demo:
+    name: demo task
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Check out the codebase.
+        uses: actions/checkout@v2
+
+      - name: simple echoing.
+        run: echo Hi there
