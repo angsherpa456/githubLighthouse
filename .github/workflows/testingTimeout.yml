@@ -45,7 +45,8 @@ jobs:
           
           command: |
             if [[ "yes" == "yes" ]]; then
-              echo 'exit 1'
+              exit 1
+              echo exit 1
             fi
           
             response=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
