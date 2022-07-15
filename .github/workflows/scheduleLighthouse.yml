@@ -28,6 +28,6 @@ jobs:
           ghToken: ${{ secrets.PERSONAL_TOKEN }}
           templateYmlFile: '.github-scheduled-workflows/scheduledWorkFlowTemplateForLighthouse.yml'
           jobPayload: ${{ env.initialStagingVersion }}
-          targetBranch: 'newMethodTest'
+          targetBranch: 'testingAsTargetBranch'
           
 
