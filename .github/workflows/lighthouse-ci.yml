@@ -1,0 +1,62 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    types: [ closed ]
+
+jobs:
+  lighthouseCI:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14.x
+
+      - name: Check the initial staging version
+        run: |
+          initialVersion=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
+          echo initialStagingVersion="$initialVersion" >> $GITHUB_ENV
+          echo "initialStagingVersion is $initialVersion"
+      
+      - name: Check staging version and run lighthouse if staging is deployed
+        id: retry
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 120
+          max_attempts: 4
+          retry_on: error
+          retry_wait_seconds: 1200
+          continue_on_error: true
+          command: |
+            response=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
+            echo stagingVersion="$response"
+            echo "stagingVersion is $response"
+            
+            if [[ "${response}" != "${initialStagingVersion}" ]]; then
+              echo "deploymentCompleted=true" >> $GITHUB_ENV
+              echo Staging deployment completed
+              else 
+                echo This is else;
+                exit 1;
+            fi
+        
+      - name: install puppeteer
+        if: ${{ env.deploymentCompleted == 'true' }}
+        run: yarn add puppeteer --dev --immutable
+        
+      - name: run Lighthouse CI
+        if: ${{ env.deploymentCompleted == 'true' }}
+        run: |
+          yarn global add @lhci/cli@0.8.x
+          lhci autorun || echo "LHCI failed!"
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          LHCI_STAGING_ENVIRONMENT_USERNAME: ${{ secrets.LHCI_STAGING_ENVIRONMENT_USERNAME }}
+          LHCI_STAGING_ENVIRONMENT_PASSWORD: ${{ secrets.LHCI_STAGING_ENVIRONMENT_PASSWORD }}

@@ -1,33 +1,31 @@
-# This workflow schedule another workflow to check recursively if the staging deployment has been completed or not
-# particularly by checking the deployed version of the staging environment. (https://lite-stage-de.flaconi.de/api/version)
-# Upon completing the deployment, lighthouse CI will be initiated against the newly deployed staging environment.
+# # This workflow schedule another workflow to check recursively if the staging deployment has been completed or not
+# # particularly by checking the deployed version of the staging environment. (https://lite-stage-de.flaconi.de/api/version)
+# # Upon completing the deployment, lighthouse CI will be initiated against the newly deployed staging environment.
 
-name: Workflow scheduler for Lighthouse CI
+# name: Workflow scheduler for Lighthouse CI
 
-on:
-  pull_request:
-    types: [ closed ]
+# on:
+#   pull_request:
+#     types: [ closed ]
 
-jobs:
-  schedule:
-    if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+# jobs:
+#   schedule:
+#     if: github.event.pull_request.merged == true
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
 
-      - name: Get the staging version of the time when the new deployment process got initiated
-        run: |
-          response=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
-          echo initialStagingVersion="$response" >> $GITHUB_ENV
-          echo initialStagingVersion is $response
+#       - name: Get the staging version of the time when the new deployment process got initiated
+#         run: |
+#           response=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
+#           echo initialStagingVersion="$response" >> $GITHUB_ENV
+#           echo initialStagingVersion is $response
 
-      # Schedule the workflow to initiate lighthouse ci once the staging deployment gets completed
-      - name: schedule-job-action
-        uses: cardinalby/schedule-job-action@1.0.1
-        with:
-          ghToken: ${{ secrets.PERSONAL_TOKEN }}
-          templateYmlFile: '.github-scheduled-workflows/scheduledWorkFlowTemplateForLighthouse.yml'
-          jobPayload: ${{ env.initialStagingVersion }}
-          targetBranch: 'testingAsTargetBranch'
-          
-
+#       # Schedule the workflow to initiate lighthouse ci once the staging deployment gets completed
+#       - name: schedule-job-action
+#         uses: cardinalby/schedule-job-action@1.0.1
+#         with:
+#           ghToken: ${{ secrets.PERSONAL_TOKEN }}
+#           templateYmlFile: '.github-scheduled-workflows/scheduledWorkFlowTemplateForLighthouse.yml'
+#           jobPayload: ${{ env.initialStagingVersion }}
+#           targetBranch: 'testingAsTargetBranch'
