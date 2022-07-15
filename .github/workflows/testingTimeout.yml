@@ -27,12 +27,12 @@ jobs:
           echo initialStagingVersion="$initialVersion" >> $GITHUB_ENV
           echo "initialStagingVersion is $initialVersion"
       
-      - name: Check staging version and run lighthouse if staging is deployed
+      - name: If staging is deployed run lighthouse otherwise throw error code 1 and re-check 4 times before exiting
         id: retry
         uses: nick-fields/retry@v2
         with:
           timeout_minutes: 1
-          max_attempts: 2
+          max_attempts: 4
           retry_on: error
           continue_on_error: true
           command: |
