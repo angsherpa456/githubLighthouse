@@ -44,6 +44,7 @@ jobs:
           continue_on_error: true
           
           command: |
+            echo This is times
             if [[ "yes" == "yes" ]]; then
               exit 1
               echo exit 1
