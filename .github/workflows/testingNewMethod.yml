@@ -41,9 +41,7 @@ jobs:
         run: echo Hello from schedule!
 
       # Runs a set of commands using the runners shell
-      - uses: nelonoel/branch-name@v1
-        # Use branch name for whatever purpose
-      - run: echo ${BRANCH_NAME}
+      - uses: ypicard/get-branch-name-github-action@v1
           
 
 
