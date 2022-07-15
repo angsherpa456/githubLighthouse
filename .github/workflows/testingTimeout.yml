@@ -63,8 +63,18 @@ jobs:
         run: echo "deploymentCompleted is $deploymentCompleted"
         
       - name: install puppeteer
-        if: ${{ env.deploymentCompleted != 'true' }}
+        if: ${{ env.deploymentCompleted == 'true' }}
         run: yarn add puppeteer --dev --immutable
+        
+      - name: run Lighthouse CI
+        if: ${{ env.deploymentCompleted == 'true' }}
+        run: |
+          yarn global add @lhci/cli@0.8.x
+          lhci autorun || echo "LHCI failed!"
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          LHCI_STAGING_ENVIRONMENT_USERNAME: ${{ secrets.LHCI_STAGING_ENVIRONMENT_USERNAME }}
+          LHCI_STAGING_ENVIRONMENT_PASSWORD: ${{ secrets.LHCI_STAGING_ENVIRONMENT_PASSWORD }}
           
             
             
