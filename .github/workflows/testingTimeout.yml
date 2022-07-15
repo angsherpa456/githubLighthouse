@@ -54,7 +54,7 @@ jobs:
             echo stagingVersion="$response"
             echo "stagingVersion is $response"
             
-            if [[ "${response}" != "${initialStagingVersion}" ]]; then
+            if [[ "${response}" == "${initialStagingVersion}" ]]; then
               echo "deploymentCompleted=truedd" >> $GITHUB_ENV
               echo yes in
               # echo exit 1
