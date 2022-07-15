@@ -30,7 +30,11 @@ jobs:
         with:
           node-version: 14.x
 
-      
+      - name: Check the staging version
+        run: |
+          initial=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
+          echo initialStagingVersion="$initial" >> $GITHUB_ENV
+          echo "stagingVersion is $initial"
       
       - name: Timeout testing
         id: retry
@@ -48,7 +52,7 @@ jobs:
             echo stagingVersion="$response"
             echo "stagingVersion is $response"
             
-            if [[ "${response}" == "2022.07.15.12.59" ]]; then 
+            if [[ "${response}" == "${env.initialStagingVersion}" ]]; then 
               exit 1
               echo exit 1
             fi
