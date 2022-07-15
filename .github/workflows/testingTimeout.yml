@@ -45,7 +45,7 @@ jobs:
           shell: bash
           command: |
             if [[ "yes" == "yes" ]]; then
-              echo This is it
+              exit 0
             fi
             exit 0
             
