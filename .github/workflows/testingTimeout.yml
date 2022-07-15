@@ -30,27 +30,31 @@ jobs:
         with:
           node-version: 14.x
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      
       
       - name: Timeout testing
         id: retry
         uses: nick-fields/retry@v2
         with:
-          timeout_seconds: 10
+          timeout_seconds: 20
           max_attempts: 3
           retry_on: error
           continue_on_error: true
           
           command: |
             echo This is times
-            if [[ "yes" == "yes" ]]; then
+            
+            response=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
+            echo stagingVersion="$response"
+            echo "stagingVersion is $response"
+            
+            if [[ ${stagingVersion} == "2022.07.15.12.59" ]]; then
               exit 1
               echo exit 1
             fi
+        
+      - name: Run a one-line script
+        run: echo Hello, world!
           
-            response=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
-            echo stagingVersion="$response"
-            echo "stagingVersion is $stagingVersion"
+            
             
