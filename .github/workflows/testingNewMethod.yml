@@ -24,8 +24,8 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v3
-      - uses: './.github/workflows/composite-action'
+      # - uses: actions/checkout@v3
+      # - uses: './.github/workflows/composite-action'
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
@@ -43,6 +43,7 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
           
-      - name: run another workflow
-        
-        run: echo This worked hai
+      - name: Undo Push
+        uses: exions/undo-push@v1.0.0
+
+
