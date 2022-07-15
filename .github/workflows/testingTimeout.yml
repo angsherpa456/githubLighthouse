@@ -41,6 +41,5 @@ jobs:
           max_attempts: 3
           retry_on: timeout
           continue_on_error: true
-          command: >-
-            echo "this is a test"
-            node -e 'process.exit(99);'
+          command: node -e 'process.exit(99);'
+            
