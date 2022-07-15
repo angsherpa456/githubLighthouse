@@ -31,8 +31,8 @@ jobs:
         id: retry
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 1
-          max_attempts: 4
+          timeout_minutes: 5
+          max_attempts: 3
           retry_on: error
           continue_on_error: true
           command: |
