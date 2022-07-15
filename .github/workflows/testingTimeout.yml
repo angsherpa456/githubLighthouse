@@ -35,11 +35,12 @@ jobs:
         run: echo Hello, world!
       
       - name: Timeout testing
+        id: retry
         uses: nick-fields/retry@v2
         with:
           timeout_seconds: 10
           max_attempts: 3
-          retry_on: timeout
+          retry_on: error
           continue_on_error: true
           command: node -e 'process.exit(99);'
             
