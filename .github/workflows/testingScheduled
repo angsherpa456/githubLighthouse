@@ -1,0 +1,17 @@
+name: testing scheduled
+on:  
+  schedule:  
+    - cron:  '*/10 * * * *'
+jobs:  
+  testingscheduled:  
+    runs-on: ubuntu-latest    
+    steps:       
+      - name: Check the staging version
+        run: |
+          response=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
+          echo stagingVersion="$response"
+          echo "stagingVersion is $stagingVersion"
+          
+      - name: one line echoing
+        id: step_one
+        run: echo This ran
