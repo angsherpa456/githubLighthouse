@@ -33,7 +33,7 @@ jobs:
         with:
           timeout_minutes: 5
           max_attempts: 3
-          retry_on: error
+          retry_on: timeout
           continue_on_error: true
           command: |
             response=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
