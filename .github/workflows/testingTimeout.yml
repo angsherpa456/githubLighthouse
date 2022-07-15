@@ -42,7 +42,7 @@ jobs:
           max_attempts: 3
           retry_on: error
           continue_on_error: true
-          shell: bash
+          
           command: |
             if [[ "yes" == "yes" ]]; then
               $(node -e 'process.exit(99);')
