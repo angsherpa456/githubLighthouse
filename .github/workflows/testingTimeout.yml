@@ -1,28 +1,17 @@
-# This is a basic workflow to help you get started with Actions
+name: Lighthouse CI
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "master" branch
   push:
     branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  lighthouseCI:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
@@ -32,40 +21,32 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: Check the staging version
+      - name: Check the initial staging version
         run: |
-          initial=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
-          echo initialStagingVersion="$initial" >> $GITHUB_ENV
-          echo "stagingVersion is $initial"
+          initialVersion=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
+          echo initialStagingVersion="$initialVersion" >> $GITHUB_ENV
+          echo "initialStagingVersion is $initialVersion"
       
-      - name: Timeout testing
+      - name: Check staging version and run lighthouse if staging is deployed
         id: retry
         uses: nick-fields/retry@v2
         with:
-          timeout_seconds: 20
-          max_attempts: 3
+          timeout_minutes: 1
+          max_attempts: 2
           retry_on: error
           continue_on_error: true
-          
           command: |
-            echo This is times
-            
             response=$(curl -X GET "https://lite-stage-de.flaconi.de/api/version" | jq -r '.version')
             echo stagingVersion="$response"
             echo "stagingVersion is $response"
             
-            if [[ "${response}" == "${initialStagingVersion}" ]]; then
+            if [[ "${response}" != "${initialStagingVersion}" ]]; then
               echo "deploymentCompleted=true" >> $GITHUB_ENV
-              echo yes in
-              # echo exit 1
-              # exit 1
+              echo Staging deployment completed
               else 
                 echo This is else;
                 exit 1;
             fi
-        
-      - name: Run a one-line script
-        run: echo "deploymentCompleted is $deploymentCompleted"
         
       - name: install puppeteer
         if: ${{ env.deploymentCompleted == 'true' }}
@@ -80,6 +61,3 @@ jobs:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
           LHCI_STAGING_ENVIRONMENT_USERNAME: ${{ secrets.LHCI_STAGING_ENVIRONMENT_USERNAME }}
           LHCI_STAGING_ENVIRONMENT_PASSWORD: ${{ secrets.LHCI_STAGING_ENVIRONMENT_PASSWORD }}
-          
-            
-            
