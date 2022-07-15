@@ -61,6 +61,7 @@ jobs:
               # exit 1
               else 
                 echo This is else;
+                exit 1;
             fi
         
       - name: Run a one-line script
